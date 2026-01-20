@@ -1,12 +1,12 @@
 'use client';
 import { useState } from "react";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/organisms/Sidebar";
 import Box from "@mui/material/Box";
-import TopHeader from "@/components/Header";
-import TotalReceivedCard from "@/components/Dashboard/TotalReceivedCard";
-import QuickPayNoteCard from "@/components/Dashboard/QuickPayNoteCard";
-import InvoicesTable from "@/components/Dashboard/InvoicesTable";
-import CreateInvoiceDrawer from '@/components/Dashboard/CreateInvoiceDrawer';
+import TopHeader from "@/components/organisms/Header";
+import TotalReceivedCard from "@/components/organisms/TotalReceivedCard";
+import QuickPayNoteCard from "@/components/organisms/QuickPayNoteCard";
+import InvoicesTable from "@/components/organisms/InvoicesTable";
+import CreateInvoiceDrawer from '@/components/organisms/CreateInvoiceDrawer';
 
 export default function Home() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
