@@ -15,6 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import CustomDropdownIcon from '@/components/CustomDropdownIcon';
+import InvoicePreviewModal from './InvoicePreviewModal';
 
 interface InvoiceItem {
     name: string;
@@ -54,6 +55,8 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
         control,
         name: "items"
     });
+
+    const [previewOpen, setPreviewOpen] = React.useState(false);
 
     const watchedItems = watch('items');
     const totalAmount = watchedItems.reduce((sum, item) => sum + (item.qty * item.price), 0);
@@ -289,13 +292,23 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                 </Box>
 
                 <Box sx={{ p: 3, borderTop: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Button sx={{ color: 'primary.main', fontWeight: 700, fontSize: '0.8rem' }}>PREVIEW</Button>
+                    <Button
+                        onClick={() => setPreviewOpen(true)}
+                        sx={{ color: 'primary.main', fontWeight: 700, fontSize: '0.8rem' }}
+                    >
+                        PREVIEW
+                    </Button>
                     <Box sx={{ display: 'flex', gap: 2 }}>
                         <Button variant="outlined" sx={{ color: 'text.secondary', borderColor: '#e0e0e0', fontWeight: 600 }}>SAVE AS DRAFT</Button>
                         <Button variant="contained" type="submit" sx={{ bgcolor: 'primary.main', fontWeight: 700, px: 4 }}>SEND</Button>
                     </Box>
                 </Box>
             </Box>
-        </Drawer>
+            <InvoicePreviewModal
+                open={previewOpen}
+                onClose={() => setPreviewOpen(false)}
+                data={watch()}
+            />
+        </Drawer >
     );
 }
