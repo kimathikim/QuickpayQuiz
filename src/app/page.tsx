@@ -1,11 +1,16 @@
+'use client';
+import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Box from "@mui/material/Box";
 import TopHeader from "@/components/Header";
 import TotalReceivedCard from "@/components/Dashboard/TotalReceivedCard";
 import QuickPayNoteCard from "@/components/Dashboard/QuickPayNoteCard";
 import InvoicesTable from "@/components/Dashboard/InvoicesTable";
+import CreateInvoiceDrawer from '@/components/Dashboard/CreateInvoiceDrawer';
 
 export default function Home() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   return (
     <Box sx={{ display: 'flex', bgcolor: 'primary.main', minHeight: '100vh' }}>
       <Sidebar />
@@ -25,18 +30,16 @@ export default function Home() {
         <TopHeader />
 
         <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mr: 12 }}>
-          <Box sx={{ flex: 1, minWidth: '300px' }}>
-            <TotalReceivedCard />
-          </Box>
-          <Box sx={{ flex: 1, minWidth: '300px' }}>
-            <QuickPayNoteCard />
-          </Box>
+          <TotalReceivedCard />
+          <QuickPayNoteCard />
         </Box>
 
         <Box sx={{ mr: 12 }}>
-          <InvoicesTable />
+          <InvoicesTable onNewInvoice={() => setIsDrawerOpen(true)} />
         </Box>
       </Box>
+
+      <CreateInvoiceDrawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
     </Box>
   );
 }

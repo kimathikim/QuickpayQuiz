@@ -20,7 +20,11 @@ import { Invoice } from '@/types/dashboard';
 import CurrencyDisplay from '@/components/CurrencyDisplay';
 import StyledOutlinedButton from '@/components/StyledOutlinedButton';
 
-export default function InvoicesTable() {
+interface InvoicesTableProps {
+    onNewInvoice?: () => void;
+}
+
+export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
     const { invoices } = useAppSelector((state) => state.dashboard);
 
     const getStatusColor = (status: string): { bg: string, color: string, dot: string } => {
@@ -41,6 +45,7 @@ export default function InvoicesTable() {
                 </Box>
                 <Button
                     variant="contained"
+                    onClick={onNewInvoice}
                     sx={{
                         bgcolor: 'primary.main',
                         fontWeight: 700,
