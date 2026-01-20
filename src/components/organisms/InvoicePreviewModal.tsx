@@ -23,7 +23,7 @@ interface InvoicePreviewModalProps {
         issuedOn: string;
         dueOn: string;
         items: InvoiceItem[];
-        notes: string;
+        notes?: string;
     };
 }
 

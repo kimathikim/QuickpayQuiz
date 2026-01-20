@@ -16,22 +16,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import CustomDropdownIcon from '@/components/atoms/CustomDropdownIcon';
 import InvoicePreviewModal from './InvoicePreviewModal';
-
-interface InvoiceItem {
-    name: string;
-    qty: number;
-    price: number;
-}
-
-interface CreateInvoiceFormValues {
-    recipientEmail: string;
-    projectDescription: string;
-    issuedOn: string;
-    dueOn: string;
-    isRecurring: boolean;
-    items: InvoiceItem[];
-    notes: string;
-}
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CreateInvoiceSchema, CreateInvoiceSchemaType } from '@/lib/schemas';
 
 interface CreateInvoiceDrawerProps {
     open: boolean;
@@ -39,14 +25,15 @@ interface CreateInvoiceDrawerProps {
 }
 
 export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDrawerProps) {
-    const { control, handleSubmit, watch, register } = useForm<CreateInvoiceFormValues>({
+    const { control, handleSubmit, watch, register, formState: { errors } } = useForm<CreateInvoiceSchemaType>({
+        resolver: zodResolver(CreateInvoiceSchema),
         defaultValues: {
             recipientEmail: '',
             projectDescription: '',
-            issuedOn: '2020-10-25',
-            dueOn: '2020-11-04',
+            issuedOn: new Date().toISOString().split('T')[0], // Default to today
+            dueOn: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Default +7 days
             isRecurring: true,
-            items: [{ name: '', qty: 0, price: 0 }],
+            items: [{ name: '', qty: 1, price: 0 }],
             notes: ''
         }
     });
@@ -61,7 +48,7 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
     const watchedItems = watch('items');
     const totalAmount = watchedItems.reduce((sum, item) => sum + (item.qty * item.price), 0);
 
-    const onSubmit = (data: CreateInvoiceFormValues) => {
+    const onSubmit = (data: CreateInvoiceSchemaType) => {
         console.log(data);
         onClose();
     };
@@ -127,6 +114,8 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                     fullWidth
                                     size="small"
                                     placeholder="Select recipient"
+                                    error={!!errors.recipientEmail}
+                                    helperText={errors.recipientEmail?.message}
                                     SelectProps={{
                                         IconComponent: () => (
                                             <Box sx={{ position: 'absolute', right: 0, display: 'flex', alignItems: 'center' }}>
@@ -139,17 +128,17 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                         bgcolor: 'white',
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: 1,
-                                            '& fieldset': { borderColor: '#e0e0e0' },
-                                            '&:hover fieldset': { borderColor: '#bdbdbd' },
-                                            '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                                            '& fieldset': { borderColor: errors.recipientEmail ? 'error.main' : '#e0e0e0' },
+                                            '&:hover fieldset': { borderColor: errors.recipientEmail ? 'error.main' : '#bdbdbd' },
+                                            '&.Mui-focused fieldset': { borderColor: errors.recipientEmail ? 'error.main' : 'primary.main' }
                                         }
                                     }}
                                 >
-                                    <MenuItem value="alex">
+                                    <MenuItem value="Alex Parkinson (alex@email.com)">
                                         <Typography variant="body2" component="span" color="text.primary">Alex Parkinson</Typography>
                                         <Typography variant="body2" component="span" color="text.secondary" sx={{ ml: 0.5 }}>(alex@email.com)</Typography>
                                     </MenuItem>
-                                    <MenuItem value="john">
+                                    <MenuItem value="John Doe (john@email.com)">
                                         <Typography variant="body2" component="span" color="text.primary">John Doe</Typography>
                                         <Typography variant="body2" component="span" color="text.secondary" sx={{ ml: 0.5 }}>(john@email.com)</Typography>
                                     </MenuItem>
@@ -165,6 +154,8 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                             fullWidth
                             size="small"
                             placeholder="Project / Description"
+                            error={!!errors.projectDescription}
+                            helperText={errors.projectDescription?.message}
                             sx={{ bgcolor: '#F9FAFB' }}
                         />
                     </Box>
@@ -177,6 +168,8 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                 type="date"
                                 fullWidth
                                 size="small"
+                                error={!!errors.issuedOn}
+                                helperText={errors.issuedOn?.message}
                                 sx={{ bgcolor: '#F9FAFB' }}
                             />
                         </Box>
@@ -187,6 +180,8 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                 type="date"
                                 fullWidth
                                 size="small"
+                                error={!!errors.dueOn}
+                                helperText={errors.dueOn?.message}
                                 sx={{ bgcolor: '#F9FAFB' }}
                             />
                         </Box>
@@ -219,12 +214,15 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                     {...register(`items.${index}.name`)}
                                     size="small"
                                     fullWidth
+                                    error={!!errors.items?.[index]?.name}
+                                    helperText={errors.items?.[index]?.name?.message}
                                     sx={{ flex: 3, bgcolor: '#F9FAFB' }}
                                 />
                                 <TextField
                                     {...register(`items.${index}.qty`, { valueAsNumber: true })}
                                     type="number"
                                     size="small"
+                                    error={!!errors.items?.[index]?.qty}
                                     sx={{
                                         flex: 1,
                                         bgcolor: '#F9FAFB',
@@ -242,6 +240,7 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                     {...register(`items.${index}.price`, { valueAsNumber: true })}
                                     type="number"
                                     size="small"
+                                    error={!!errors.items?.[index]?.price}
                                     sx={{
                                         flex: 1,
                                         bgcolor: '#F9FAFB',
