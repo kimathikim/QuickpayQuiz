@@ -12,7 +12,9 @@ import Button from '@mui/material/Button';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
+import CustomDropdownIcon from '@/components/CustomDropdownIcon';
 
 interface InvoiceItem {
     name: string;
@@ -67,12 +69,24 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
             open={open}
             onClose={onClose}
             PaperProps={{
-                sx: { width: '100%', maxWidth: 600, p: 0 }
+                sx: {
+                    width: '100%',
+                    maxWidth: 600,
+                    p: 0,
+                    borderRadius: 0,
+                    boxShadow: '-10px 0 40px rgba(0,0,0,0.1)'
+                }
+            }}
+            ModalProps={{
+                BackdropProps: {
+                    sx: {
+                        backgroundColor: 'rgba(255, 255, 255, 0.5)'
+                    }
+                }
             }}
         >
             <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                {/* Header */}
-                <Box sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #eee' }}>
+                <Box sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h6" fontWeight="bold">Create new invoice</Typography>
                     <IconButton onClick={onClose} size="small">
                         <CloseIcon />
@@ -91,8 +105,15 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         </Button>
                     </Box>
 
-                    <Box sx={{ mb: 3 }}>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>Recipient Email</Typography>
+                    <Box sx={{
+                        mb: 3,
+                        p: 2,
+                        bgcolor: '#F5F7FF',
+                        borderRadius: 2,
+                        border: '1px solid',
+                        borderColor: '#E3F2FD'
+                    }}>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1, fontWeight: 500 }}>Recipient Email</Typography>
                         <Controller
                             name="recipientEmail"
                             control={control}
@@ -103,10 +124,32 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                     fullWidth
                                     size="small"
                                     placeholder="Select recipient"
-                                    sx={{ bgcolor: '#F9FAFB' }}
+                                    SelectProps={{
+                                        IconComponent: () => (
+                                            <Box sx={{ position: 'absolute', right: 0, display: 'flex', alignItems: 'center' }}>
+                                                <CustomDropdownIcon />
+                                            </Box>
+                                        ),
+                                        sx: { paddingRight: '40px' }
+                                    }}
+                                    sx={{
+                                        bgcolor: 'white',
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: 1,
+                                            '& fieldset': { borderColor: '#e0e0e0' },
+                                            '&:hover fieldset': { borderColor: '#bdbdbd' },
+                                            '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                                        }
+                                    }}
                                 >
-                                    <MenuItem value="alex">Alex Parkinson (alex@email.com)</MenuItem>
-                                    <MenuItem value="john">John Doe (john@email.com)</MenuItem>
+                                    <MenuItem value="alex">
+                                        <Typography variant="body2" component="span" color="text.primary">Alex Parkinson</Typography>
+                                        <Typography variant="body2" component="span" color="text.secondary" sx={{ ml: 0.5 }}>(alex@email.com)</Typography>
+                                    </MenuItem>
+                                    <MenuItem value="john">
+                                        <Typography variant="body2" component="span" color="text.primary">John Doe</Typography>
+                                        <Typography variant="body2" component="span" color="text.secondary" sx={{ ml: 0.5 }}>(john@email.com)</Typography>
+                                    </MenuItem>
                                 </TextField>
                             )}
                         />
@@ -179,14 +222,34 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                     {...register(`items.${index}.qty`, { valueAsNumber: true })}
                                     type="number"
                                     size="small"
-                                    sx={{ flex: 1, bgcolor: '#F9FAFB' }}
+                                    sx={{
+                                        flex: 1,
+                                        bgcolor: '#F9FAFB',
+                                        '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
+                                            '-webkit-appearance': 'none',
+                                            margin: 0,
+                                        },
+                                        '& input[type=number]': {
+                                            '-moz-appearance': 'textfield',
+                                        },
+                                    }}
                                     inputProps={{ style: { textAlign: 'center' } }}
                                 />
                                 <TextField
                                     {...register(`items.${index}.price`, { valueAsNumber: true })}
                                     type="number"
                                     size="small"
-                                    sx={{ flex: 1, bgcolor: '#F9FAFB' }}
+                                    sx={{
+                                        flex: 1,
+                                        bgcolor: '#F9FAFB',
+                                        '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
+                                            '-webkit-appearance': 'none',
+                                            margin: 0,
+                                        },
+                                        '& input[type=number]': {
+                                            '-moz-appearance': 'textfield',
+                                        },
+                                    }}
                                     inputProps={{ style: { textAlign: 'right' } }}
                                 />
                                 <Typography sx={{ flex: 1, textAlign: 'right', fontWeight: 'bold' }}>

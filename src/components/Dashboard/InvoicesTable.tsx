@@ -19,6 +19,7 @@ import { useAppSelector } from '@/store/hooks';
 import { Invoice } from '@/types/dashboard';
 import CurrencyDisplay from '@/components/CurrencyDisplay';
 import StyledOutlinedButton from '@/components/StyledOutlinedButton';
+import CustomDropdownIcon from '@/components/CustomDropdownIcon';
 
 interface InvoicesTableProps {
     onNewInvoice?: () => void;
@@ -84,10 +85,7 @@ export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
                     }}
                 >
                     Show all
-                    <Box component="span" sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-                        <Box sx={{ width: '1px', height: 20, bgcolor: '#e0e0e0', mr: 1 }} />
-                        <KeyboardArrowDownIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
-                    </Box>
+                    <CustomDropdownIcon />
                 </StyledOutlinedButton>
             </Box>
 
