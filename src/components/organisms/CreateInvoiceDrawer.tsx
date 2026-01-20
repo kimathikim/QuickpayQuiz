@@ -11,7 +11,7 @@ import InvoicePreviewModal from './InvoicePreviewModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateInvoiceSchema, CreateInvoiceSchemaType } from '@/lib/schemas';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { addInvoice } from '@/store/Dashboard/dashboardSlice';
+import { createInvoice } from '@/store/Dashboard/dashboardSlice';
 
 import InvoiceRecipientField from '@/components/molecules/InvoiceRecipientField';
 import InvoiceDetailsFields from '@/components/molecules/InvoiceDetailsFields';
@@ -50,18 +50,27 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
     const watchedEmail = watch('recipientEmail');
     const selectedClient = clients.find(c => c.email === watchedEmail);
 
-    const onSubmitWithStatus = (status: 'Pending' | 'Draft') => (data: CreateInvoiceSchemaType) => {
+    const onSubmitWithStatus = (status: 'Pending' | 'Draft') => async (data: CreateInvoiceSchemaType) => {
         const totalAmount = data.items.reduce((sum, item) => sum + (item.qty * item.price), 0);
 
-        dispatch(addInvoice({
-            date: new Date(data.issuedOn).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-            client: data.recipientEmail.split('(')[0].trim(),
-            amount: totalAmount,
-            status: status,
-        }));
+        // Generate a random invoice number for now
+        const invoiceNumber = `#INV${Math.floor(1000 + Math.random() * 9000)}`;
 
-        onClose();
-        reset();
+        try {
+            await dispatch(createInvoice({
+                invoiceNumber,
+                date: new Date(data.issuedOn).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                client: selectedClient?.name || data.recipientEmail,
+                amount: totalAmount,
+                status: status,
+            })).unwrap();
+
+            onClose();
+            reset();
+        } catch (err: any) {
+            console.error('Failed to create invoice:', err);
+            alert(`Failed to create invoice: ${err.message || 'Unknown error'}`);
+        }
     };
 
     return (

@@ -7,11 +7,7 @@ export const InvoiceItemSchema = z.object({
 });
 
 export const CreateInvoiceSchema = z.object({
-    recipientEmail: z.string().min(1, 'Recipient email is required').refine((val) => {
-        const match = val.match(/\(([^)]+)\)/);
-        if (!match) return false;
-        return z.string().email().safeParse(match[1]).success;
-    }, 'Invalid email format'),
+    recipientEmail: z.string().min(1, 'Recipient email is required').email('Invalid email address'),
     projectDescription: z.string().min(3, 'Description must be at least 3 characters'),
     issuedOn: z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid date'),
     dueOn: z.string().refine((val) => !isNaN(Date.parse(val)), 'Invalid date'),

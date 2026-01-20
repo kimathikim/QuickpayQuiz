@@ -10,13 +10,14 @@ import Typography from '@mui/material/Typography';
 import { NAVIGATION, BOTTOM_NAVIGATION } from '@/constants/navigation';
 
 import { useAppDispatch } from '@/store/hooks';
-import { fetchClients } from '@/store/Dashboard/dashboardSlice';
+import { fetchClients, fetchInvoices } from '@/store/Dashboard/dashboardSlice';
 
 export default function Sidebar() {
     const dispatch = useAppDispatch();
 
     React.useEffect(() => {
         dispatch(fetchClients());
+        dispatch(fetchInvoices());
     }, [dispatch]);
 
     return (
@@ -62,10 +63,10 @@ export default function Sidebar() {
                     <ListItem key={item.label} disablePadding sx={{ mb: 0 }}>
                         <ListItemButton
                             sx={{
-                                borderRadius: 0, // Full width flat edge
+                                borderRadius: 0,
                                 py: 1.5,
-                                pl: 4, // Align with logo
-                                bgcolor: item.active ? 'rgba(0, 0, 0, 0.2)' : 'transparent', // Darker active state
+                                pl: 4,
+                                bgcolor: item.active ? 'rgba(0, 0, 0, 0.2)' : 'transparent',
                                 position: 'relative',
                                 '&:hover': { bgcolor: 'rgba(0, 0, 0, 0.1)' },
                                 '&::before': item.active ? {
@@ -75,7 +76,7 @@ export default function Sidebar() {
                                     top: 0,
                                     bottom: 0,
                                     width: 4,
-                                    bgcolor: 'white', // White indicator bar
+                                    bgcolor: 'white',
                                     borderTopRightRadius: 4,
                                     borderBottomRightRadius: 4
                                 } : {}

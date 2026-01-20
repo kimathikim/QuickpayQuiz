@@ -6,6 +6,7 @@ import Avatar from '@mui/material/Avatar';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StyledOutlinedButton from '@/components/atoms/StyledOutlinedButton';
+import { USER_NAME } from '../../../constants';
 
 export default function TopHeader() {
     return (
@@ -35,8 +36,8 @@ export default function TopHeader() {
                         justifyContent: 'flex-start'
                     }}
                 >
-                    <Avatar sx={{ width: 24, height: 24, fontSize: '0.75rem', bgcolor: '#F5F7FF', color: 'primary.main' }}>JD</Avatar>
-                    <Typography variant="body2" fontWeight="500" color="text.primary" sx={{ fontSize: '0.85rem', textTransform: 'none' }}>Jonnathan Doe</Typography>
+                    <Avatar sx={{ width: 24, height: 24, fontSize: '0.75rem', bgcolor: '#F5F7FF', color: 'primary.main' }}>{USER_NAME.split(' ').map((n: string) => n[0]).join('')}</Avatar>
+                    <Typography variant="body2" fontWeight="500" color="text.primary" sx={{ fontSize: '0.85rem', textTransform: 'none' }}>{USER_NAME}</Typography>
                     <KeyboardArrowDownIcon color="action" sx={{ fontSize: 18 }} />
                 </StyledOutlinedButton>
             </Box>
