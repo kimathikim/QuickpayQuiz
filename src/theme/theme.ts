@@ -16,6 +16,24 @@ const theme = createTheme({
         primary: {
             main: '#2173F2', // Blue from the image startglobal
         },
+        secondary: {
+            main: '#1A1A1A', // Using text primary as secondary for now if needed, or define distinct
+        },
+        success: {
+            main: '#4CAF50',
+            light: '#E8F5E9',
+            contrastText: '#FFFFFF',
+        },
+        warning: {
+            main: '#FF9800',
+            light: '#FFF3E0',
+            contrastText: '#FFFFFF',
+        },
+        info: {
+            main: '#2196F3',
+            light: '#E3F2FD',
+            contrastText: '#FFFFFF',
+        },
         background: {
             default: '#F5F6FA', // Light grey background
             paper: '#FFFFFF',

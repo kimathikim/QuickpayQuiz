@@ -1,13 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface Invoice {
-    id: string;
-    invoiceNumber: string;
-    date: string;
-    client: string;
-    amount: number;
-    status: 'Pending' | 'Draft' | 'Paid';
-}
+import { Invoice } from '@/types/dashboard';
 
 interface DashboardState {
     totalReceived: number;

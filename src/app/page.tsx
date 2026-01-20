@@ -21,7 +21,9 @@ export default function Home() {
           </Box>
         </Box>
 
-        <InvoicesTable />
+        <Box sx={{ mr: 12 }}>
+          <InvoicesTable />
+        </Box>
       </Box>
     </Box>
   );

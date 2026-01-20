@@ -16,17 +16,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppSelector } from '@/store/hooks';
-import { Invoice } from '@/store/Dashboard/dashboardSlice';
+import { Invoice } from '@/types/dashboard';
 
 export default function InvoicesTable() {
     const { invoices } = useAppSelector((state) => state.dashboard);
 
-    const getStatusColor = (status: string) => {
+    const getStatusColor = (status: string): { bg: string, color: string, dot: string } => {
         switch (status) {
-            case 'Pending': return { bg: '#E3F2FD', color: '#2196F3', dot: '#2196F3' };
-            case 'Draft': return { bg: '#FFF3E0', color: '#FF9800', dot: '#FF9800' };
-            case 'Paid': return { bg: '#E8F5E9', color: '#4CAF50', dot: '#4CAF50' };
-            default: return { bg: '#F5F5F5', color: '#9E9E9E', dot: '#9E9E9E' };
+            case 'Pending': return { bg: 'info.light', color: 'info.main', dot: 'info.main' };
+            case 'Draft': return { bg: 'warning.light', color: 'warning.main', dot: 'warning.main' };
+            case 'Paid': return { bg: 'success.light', color: 'success.main', dot: 'success.main' };
+            default: return { bg: 'grey.100', color: 'text.secondary', dot: 'text.secondary' };
         }
     };
 
@@ -34,14 +34,14 @@ export default function InvoicesTable() {
         <Box sx={{ mt: 6 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
                 <Box>
-                    <Typography variant="h6" fontWeight="bold" color="#333">Invoices</Typography>
+                    <Typography variant="h6" fontWeight="bold" color="text.primary">Invoices</Typography>
                     <Typography variant="body2" color="text.secondary">List of all of your recent transactions.</Typography>
                 </Box>
                 <Button
                     variant="contained"
                     startIcon={<AddIcon />}
                     sx={{
-                        bgcolor: '#2173F2',
+                        bgcolor: 'primary.main',
                         fontWeight: 600,
                         px: 3,
                         boxShadow: '0px 4px 10px rgba(33, 115, 242, 0.2)'
@@ -59,7 +59,7 @@ export default function InvoicesTable() {
                     size="small"
                     fullWidth
                     sx={{
-                        bgcolor: 'white',
+                        bgcolor: 'background.paper',
                         '& .MuiOutlinedInput-root': { borderRadius: 1.5 }
                     }}
                     InputProps={{
@@ -74,9 +74,9 @@ export default function InvoicesTable() {
                     variant="outlined"
                     endIcon={<KeyboardArrowDownIcon />}
                     sx={{
-                        bgcolor: 'white',
+                        bgcolor: 'background.paper',
                         borderColor: '#e0e0e0',
-                        color: '#333',
+                        color: 'text.primary',
                         textTransform: 'none',
                         minWidth: 120,
                         justifyContent: 'space-between',
@@ -88,31 +88,40 @@ export default function InvoicesTable() {
             </Box>
 
             {/* Table */}
-            <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 'none' }}>
-                <Table sx={{ minWidth: 650 }} aria-label="invoices table">
-                    <TableHead sx={{ bgcolor: '#FAFAFA' }}>
+            <TableContainer sx={{ Overflow: 'visible' }}>
+                <Table sx={{ minWidth: 650, borderCollapse: 'separate', borderSpacing: '0 10px' }} aria-label="invoices table">
+                    <TableHead>
                         <TableRow>
-                            <TableCell sx={{ color: '#888', fontWeight: 500 }}>No.</TableCell>
-                            <TableCell sx={{ color: '#888', fontWeight: 500 }}>Date</TableCell>
-                            <TableCell sx={{ color: '#888', fontWeight: 500 }}>Client</TableCell>
-                            <TableCell align="right" sx={{ color: '#888', fontWeight: 500 }}>Amount</TableCell>
-                            <TableCell align="right" sx={{ color: '#888', fontWeight: 500 }}>Status</TableCell>
+                            <TableCell sx={{ color: 'text.secondary', fontWeight: 500, border: 0, pl: 3 }}>No.</TableCell>
+                            <TableCell sx={{ color: 'text.secondary', fontWeight: 500, border: 0 }}>Date</TableCell>
+                            <TableCell sx={{ color: 'text.secondary', fontWeight: 500, border: 0 }}>Client</TableCell>
+                            <TableCell align="right" sx={{ color: 'text.secondary', fontWeight: 500, border: 0 }}>Amount</TableCell>
+                            <TableCell align="right" sx={{ color: 'text.secondary', fontWeight: 500, border: 0, pr: 3 }}>Status</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {invoices.map((row: Invoice) => {
                             const statusStyle = getStatusColor(row.status);
                             return (
-                                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <TableCell component="th" scope="row" sx={{ fontWeight: 600, color: '#555' }}>
+                                <TableRow
+                                    key={row.id}
+                                    sx={{
+                                        bgcolor: 'background.paper',
+                                        boxShadow: '0px 2px 4px rgba(0,0,0,0.02)',
+                                        '& td:first-of-type': { borderTopLeftRadius: 8, borderBottomLeftRadius: 8 },
+                                        '& td:last-of-type': { borderTopRightRadius: 8, borderBottomRightRadius: 8 },
+                                        '&:hover': { boxShadow: '0px 4px 8px rgba(0,0,0,0.05)' }
+                                    }}
+                                >
+                                    <TableCell component="th" scope="row" sx={{ fontWeight: 600, color: 'text.primary', border: 0, py: 2, pl: 3 }}>
                                         {row.invoiceNumber}
                                     </TableCell>
-                                    <TableCell sx={{ color: '#555' }}>{row.date}</TableCell>
-                                    <TableCell sx={{ color: '#555' }}>{row.client}</TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: 600, color: '#555' }}>
+                                    <TableCell sx={{ color: 'text.secondary', border: 0, py: 2 }}>{row.date}</TableCell>
+                                    <TableCell sx={{ color: 'text.secondary', border: 0, py: 2 }}>{row.client}</TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 600, color: 'text.primary', border: 0, py: 2 }}>
                                         ${row.amount.toFixed(2)}
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell align="right" sx={{ border: 0, py: 2, pr: 3 }}>
                                         <Box sx={{
                                             display: 'inline-flex',
                                             alignItems: 'center',
