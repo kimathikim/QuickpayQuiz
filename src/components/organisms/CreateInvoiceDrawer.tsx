@@ -18,6 +18,7 @@ import CustomDropdownIcon from '@/components/atoms/CustomDropdownIcon';
 import InvoicePreviewModal from './InvoicePreviewModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateInvoiceSchema, CreateInvoiceSchemaType } from '@/lib/schemas';
+import { formatCurrency } from '@/lib/utils';
 
 interface CreateInvoiceDrawerProps {
     open: boolean;
@@ -255,7 +256,7 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                                     inputProps={{ style: { textAlign: 'right' } }}
                                 />
                                 <Typography sx={{ flex: 1, textAlign: 'right', fontWeight: 'bold' }}>
-                                    ${(watchedItems[index]?.qty * watchedItems[index]?.price || 0).toLocaleString()}
+                                    ${formatCurrency(watchedItems[index]?.qty * watchedItems[index]?.price || 0).full}
                                 </Typography>
                                 <IconButton size="small" onClick={() => remove(index)}>
                                     <MoreHorizIcon fontSize="small" />
@@ -274,7 +275,7 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         </Button>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 4, mr: 5 }}>
                             <Typography color="text.secondary" fontWeight="600">Total</Typography>
-                            <Typography variant="h6" fontWeight="bold">${totalAmount.toLocaleString()}</Typography>
+                            <Typography variant="h6" fontWeight="bold">${formatCurrency(totalAmount).full}</Typography>
                         </Box>
                     </Box>
 

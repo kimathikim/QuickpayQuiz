@@ -5,9 +5,13 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useAppSelector } from '@/store/hooks';
 import { RootState } from '@/store/store';
+import { formatCurrency } from '@/lib/utils';
 
 export default function TotalReceivedCard() {
     const { totalReceived, pendingAmount, growthPercentage } = useAppSelector((state: RootState) => state.dashboard);
+    const total = formatCurrency(totalReceived);
+    const pending = formatCurrency(pendingAmount);
+    const draft = formatCurrency(0);
 
     return (
         <Paper sx={{ p: 3, flex: 1, height: '100%', minHeight: 210, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 3, boxShadow: '0px 4px 20px rgba(0,0,0,0.02)' }}>
@@ -18,7 +22,7 @@ export default function TotalReceivedCard() {
 
                 <Typography variant="h3" fontWeight="bold" sx={{ color: 'text.primary', mt: 1, mb: 1, fontSize: '2.5rem', display: 'flex', alignItems: 'flex-start', lineHeight: 1 }}>
                     <Box component="span" sx={{ fontSize: '1.5rem', color: 'text.secondary', mr: 0.5, mt: 0.5 }}>$</Box>
-                    {totalReceived.toLocaleString('en-US', { minimumFractionDigits: 2 }).split('.')[0]}<Box component="span" sx={{ color: 'text.secondary', fontSize: '2.5rem' }}>.{totalReceived.toLocaleString('en-US', { minimumFractionDigits: 2 }).split('.')[1]}</Box>
+                    {total.integer}<Box component="span" sx={{ color: 'text.secondary', fontSize: '2.5rem' }}>.{total.fraction}</Box>
                 </Typography>
 
                 <Box sx={{
@@ -43,7 +47,7 @@ export default function TotalReceivedCard() {
                         Pending
                     </Typography>
                     <Typography variant="h6" fontWeight="bold" color="text.primary" sx={{ pl: 2, lineHeight: 1 }}>
-                        ${pendingAmount.toFixed(2).split('.')[0]}<Box component="span" sx={{ color: 'text.secondary' }}>.{pendingAmount.toFixed(2).split('.')[1]}</Box>
+                        ${pending.integer}<Box component="span" sx={{ color: 'text.secondary' }}>.{pending.fraction}</Box>
                     </Typography>
                 </Box>
 
@@ -53,7 +57,7 @@ export default function TotalReceivedCard() {
                         In drafts
                     </Typography>
                     <Typography variant="h6" fontWeight="bold" color="text.primary" sx={{ pl: 2, lineHeight: 1 }}>
-                        $00<Box component="span" sx={{ color: 'text.secondary' }}>.00</Box>
+                        ${draft.integer}<Box component="span" sx={{ color: 'text.secondary' }}>.{draft.fraction}</Box>
                     </Typography>
                 </Box>
             </Box>

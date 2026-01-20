@@ -1,5 +1,6 @@
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
+import { formatCurrency, formatDate } from '@/lib/utils';
 import DialogContent from '@mui/material/DialogContent';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -63,11 +64,11 @@ export default function InvoicePreviewModal({ open, onClose, data }: InvoicePrev
                 <Box sx={{ display: 'flex', gap: 8, mb: 4 }}>
                     <Box>
                         <Typography variant="caption" color="text.secondary" display="block">Issued on</Typography>
-                        <Typography variant="body2" fontWeight="600">{new Date(data.issuedOn || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</Typography>
+                        <Typography variant="body2" fontWeight="600">{formatDate(data.issuedOn || Date.now())}</Typography>
                     </Box>
                     <Box>
                         <Typography variant="caption" color="text.secondary" display="block">Due on</Typography>
-                        <Typography variant="body2" fontWeight="600">{new Date(data.dueOn || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</Typography>
+                        <Typography variant="body2" fontWeight="600">{formatDate(data.dueOn || Date.now())}</Typography>
                     </Box>
                 </Box>
 
@@ -90,8 +91,8 @@ export default function InvoicePreviewModal({ open, onClose, data }: InvoicePrev
                         <Box key={index} sx={{ display: 'flex', py: 1, mb: 1 }}>
                             <Typography variant="body2" fontWeight="500" sx={{ flex: 3 }}>{item.name || 'Item Name'}</Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ flex: 1, textAlign: 'center' }}>{item.qty}</Typography>
-                            <Typography variant="body2" color="text.secondary" sx={{ flex: 1, textAlign: 'right' }}>${item.price}</Typography>
-                            <Typography variant="body2" fontWeight="600" sx={{ flex: 1, textAlign: 'right' }}>${(item.qty * item.price).toLocaleString()}</Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ flex: 1, textAlign: 'right' }}>${formatCurrency(item.price).full}</Typography>
+                            <Typography variant="body2" fontWeight="600" sx={{ flex: 1, textAlign: 'right' }}>${formatCurrency(item.qty * item.price).full}</Typography>
                         </Box>
                     ))}
 
@@ -99,7 +100,7 @@ export default function InvoicePreviewModal({ open, onClose, data }: InvoicePrev
 
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                         <Typography variant="body2" color="text.secondary" sx={{ mr: 4 }}>Total Amount</Typography>
-                        <Typography variant="h5" fontWeight="bold">${totalAmount.toLocaleString()}</Typography>
+                        <Typography variant="h5" fontWeight="bold">${formatCurrency(totalAmount).full}</Typography>
                     </Box>
                 </Box>
 
