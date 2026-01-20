@@ -62,7 +62,6 @@ export const dashboardSlice = createSlice({
     name: 'dashboard',
     initialState,
     reducers: {
-        // Add reducers as needed
     },
 });
 
