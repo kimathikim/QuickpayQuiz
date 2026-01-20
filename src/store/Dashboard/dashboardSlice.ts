@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Invoice } from '@/types/dashboard';
 
-interface DashboardState {
+export interface DashboardState {
     totalReceived: number;
     pendingAmount: number;
     draftAmount: number;

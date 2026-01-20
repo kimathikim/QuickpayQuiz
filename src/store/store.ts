@@ -1,10 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import dashboardReducer from './Dashboard/dashboardSlice';
+import { loadState, saveState } from './localStorage';
+
+const preloadedState = loadState();
+
+const rootReducer = combineReducers({
+    dashboard: dashboardReducer,
+});
 
 export const store = configureStore({
-    reducer: {
-        dashboard: dashboardReducer,
-    },
+    reducer: rootReducer,
+    preloadedState: preloadedState as any,
+});
+
+store.subscribe(() => {
+    saveState(store.getState());
 });
 
 export type RootState = ReturnType<typeof store.getState>;
