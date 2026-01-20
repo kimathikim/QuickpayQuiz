@@ -10,7 +10,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import InvoicePreviewModal from './InvoicePreviewModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateInvoiceSchema, CreateInvoiceSchemaType } from '@/lib/schemas';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addInvoice } from '@/store/Dashboard/dashboardSlice';
 
 import InvoiceRecipientField from '@/components/molecules/InvoiceRecipientField';
@@ -25,6 +25,8 @@ interface CreateInvoiceDrawerProps {
 
 export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDrawerProps) {
     const dispatch = useAppDispatch();
+    const { clients = [] } = useAppSelector((state) => state.dashboard);
+
     const { control, handleSubmit, watch, register, reset, formState: { errors } } = useForm<CreateInvoiceSchemaType>({
         resolver: zodResolver(CreateInvoiceSchema),
         defaultValues: {
@@ -45,7 +47,9 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
 
     const [previewOpen, setPreviewOpen] = React.useState(false);
 
-    // Function to handle submission with a specific status
+    const watchedEmail = watch('recipientEmail');
+    const selectedClient = clients.find(c => c.email === watchedEmail);
+
     const onSubmitWithStatus = (status: 'Pending' | 'Draft') => (data: CreateInvoiceSchemaType) => {
         const totalAmount = data.items.reduce((sum, item) => sum + (item.qty * item.price), 0);
 
@@ -147,6 +151,7 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                 open={previewOpen}
                 onClose={() => setPreviewOpen(false)}
                 data={watch()}
+                client={selectedClient}
             />
         </Drawer >
     );

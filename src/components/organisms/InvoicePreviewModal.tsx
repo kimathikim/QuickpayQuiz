@@ -17,6 +17,8 @@ interface InvoiceItem {
     price: number;
 }
 
+import { Client } from '@/types/dashboard';
+
 interface InvoicePreviewModalProps {
     open: boolean;
     onClose: () => void;
@@ -28,9 +30,10 @@ interface InvoicePreviewModalProps {
         items: InvoiceItem[];
         notes?: string;
     };
+    client?: Client;
 }
 
-export default function InvoicePreviewModal({ open, onClose, data }: InvoicePreviewModalProps) {
+export default function InvoicePreviewModal({ open, onClose, data, client }: InvoicePreviewModalProps) {
     return (
         <Dialog
             open={open}
@@ -44,7 +47,7 @@ export default function InvoicePreviewModal({ open, onClose, data }: InvoicePrev
             <DialogContent sx={{ p: 5 }}>
                 <InvoicePreviewHeader />
 
-                <InvoicePreviewDetails data={data} />
+                <InvoicePreviewDetails data={data} client={client} />
 
                 <InvoicePreviewItems items={data.items} />
 

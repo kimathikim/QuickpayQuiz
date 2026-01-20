@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Invoice } from '@/types/dashboard';
+import { Invoice, Client } from '@/types/dashboard';
 
 export interface DashboardState {
     totalReceived: number;
@@ -8,6 +8,7 @@ export interface DashboardState {
     draftAmount: number;
     growthPercentage: number;
     invoices: Invoice[];
+    clients: Client[];
 }
 
 const initialState: DashboardState = {
@@ -49,6 +50,35 @@ const initialState: DashboardState = {
             status: 'Paid',
         },
     ],
+    clients: [
+        {
+            id: '1',
+            name: 'Alex Parkinson',
+            email: 'alex@email.com',
+            address: '3897 Hickory St',
+            city: 'Salt Lake City, Utah',
+            country: 'United States',
+            zip: '84104'
+        },
+        {
+            id: '2',
+            name: 'John Doe',
+            email: 'john@email.com',
+            address: '123 Main St',
+            city: 'San Francisco, California',
+            country: 'United States',
+            zip: '94105'
+        },
+        {
+            id: '3',
+            name: 'Thomas Lee',
+            email: 'thomas@email.com',
+            address: '456 Market St',
+            city: 'Seattle, Washington',
+            country: 'United States',
+            zip: '98101'
+        }
+    ]
 };
 
 export const dashboardSlice = createSlice({

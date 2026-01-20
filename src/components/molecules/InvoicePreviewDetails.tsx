@@ -2,16 +2,18 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { formatDate } from '@/lib/utils';
+import { Client } from '@/types/dashboard';
 
 interface InvoicePreviewDetailsProps {
     data: {
         issuedOn: string;
         dueOn: string;
         recipientEmail: string;
-    }
+    },
+    client?: Client;
 }
 
-export default function InvoicePreviewDetails({ data }: InvoicePreviewDetailsProps) {
+export default function InvoicePreviewDetails({ data, client }: InvoicePreviewDetailsProps) {
     return (
         <>
             <Box sx={{ display: 'flex', gap: 8, mb: 4 }}>
@@ -27,9 +29,18 @@ export default function InvoicePreviewDetails({ data }: InvoicePreviewDetailsPro
 
             <Box sx={{ mb: 4 }}>
                 <Typography variant="caption" color="text.secondary" display="block">Invoice for</Typography>
-                <Typography variant="body1" fontWeight="600">Alex Parkinson</Typography>
-                <Typography variant="caption" color="text.secondary" display="block">3897 Hickory St, Salt Lake City</Typography>
-                <Typography variant="caption" color="text.secondary" display="block">Utah, United States 84104</Typography>
+                {client ? (
+                    <>
+                        <Typography variant="body1" fontWeight="600">{client.name}</Typography>
+                        <Typography variant="caption" color="text.secondary" display="block">{client.address}, {client.city}</Typography>
+                        <Typography variant="caption" color="text.secondary" display="block">{client.country} {client.zip}</Typography>
+                    </>
+                ) : (
+                    <>
+                        <Typography variant="body1" fontWeight="600">Unknown Client</Typography>
+                        <Typography variant="caption" color="text.secondary" display="block">{data.recipientEmail}</Typography>
+                    </>
+                )}
             </Box>
         </>
     );

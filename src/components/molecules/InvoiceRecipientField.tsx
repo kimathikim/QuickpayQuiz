@@ -12,7 +12,13 @@ interface InvoiceRecipientFieldProps {
     errors: FieldErrors<CreateInvoiceSchemaType>;
 }
 
+import { useAppSelector } from '@/store/hooks';
+
+// ... (keep interface)
+
 export default function InvoiceRecipientField({ control, errors }: InvoiceRecipientFieldProps) {
+    const { clients = [] } = useAppSelector((state) => state.dashboard);
+
     return (
         <Box sx={{
             mb: 3,
@@ -53,14 +59,12 @@ export default function InvoiceRecipientField({ control, errors }: InvoiceRecipi
                             }
                         }}
                     >
-                        <MenuItem value="Alex Parkinson (alex@email.com)">
-                            <Typography variant="body2" component="span" color="text.primary">Alex Parkinson</Typography>
-                            <Typography variant="body2" component="span" color="text.secondary" sx={{ ml: 0.5 }}>(alex@email.com)</Typography>
-                        </MenuItem>
-                        <MenuItem value="John Doe (john@email.com)">
-                            <Typography variant="body2" component="span" color="text.primary">John Doe</Typography>
-                            <Typography variant="body2" component="span" color="text.secondary" sx={{ ml: 0.5 }}>(john@email.com)</Typography>
-                        </MenuItem>
+                        {clients.map((client) => (
+                            <MenuItem key={client.id} value={client.email}>
+                                <Typography variant="body2" component="span" color="text.primary">{client.name}</Typography>
+                                <Typography variant="body2" component="span" color="text.secondary" sx={{ ml: 0.5 }}>({client.email})</Typography>
+                            </MenuItem>
+                        ))}
                     </TextField>
                 )}
             />
