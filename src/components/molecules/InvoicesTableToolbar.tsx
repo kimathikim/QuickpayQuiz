@@ -11,9 +11,10 @@ import CustomDropdownIcon from '@/components/atoms/CustomDropdownIcon';
 interface InvoicesTableToolbarProps {
     filterStatus: string;
     onFilterChange: (status: string) => void;
+    onSearch: (term: string) => void;
 }
 
-export default function InvoicesTableToolbar({ filterStatus, onFilterChange }: InvoicesTableToolbarProps) {
+export default function InvoicesTableToolbar({ filterStatus, onFilterChange, onSearch }: InvoicesTableToolbarProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -35,6 +36,7 @@ export default function InvoicesTableToolbar({ filterStatus, onFilterChange }: I
                 variant="outlined"
                 size="small"
                 fullWidth
+                onChange={(e) => onSearch(e.target.value)}
                 sx={{
                     bgcolor: 'background.paper',
                     '& .MuiOutlinedInput-root': { borderRadius: 1.5 }

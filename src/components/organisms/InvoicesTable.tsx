@@ -21,14 +21,21 @@ interface InvoicesTableProps {
 export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
     const { invoices } = useAppSelector((state) => state.dashboard);
     const [filterStatus, setFilterStatus] = useState<string>('All');
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     const handleFilterChange = (status: string) => {
         setFilterStatus(status);
     };
 
+    const handleSearch = (term: string) => {
+        setSearchTerm(term);
+    };
+
     const filteredInvoices = invoices.filter(invoice => {
-        if (filterStatus === 'All') return true;
-        return invoice.status === filterStatus;
+        const matchesStatus = filterStatus === 'All' || invoice.status === filterStatus;
+        const matchesSearch = invoice.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            invoice.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesStatus && matchesSearch;
     });
 
     return (
@@ -57,6 +64,7 @@ export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
             <InvoicesTableToolbar
                 filterStatus={filterStatus}
                 onFilterChange={handleFilterChange}
+                onSearch={handleSearch}
             />
 
             {/* Table */}
