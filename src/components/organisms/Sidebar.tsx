@@ -9,7 +9,16 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import { NAVIGATION, BOTTOM_NAVIGATION } from '@/constants/navigation';
 
+import { useAppDispatch } from '@/store/hooks';
+import { fetchClients } from '@/store/Dashboard/dashboardSlice';
+
 export default function Sidebar() {
+    const dispatch = useAppDispatch();
+
+    React.useEffect(() => {
+        dispatch(fetchClients());
+    }, [dispatch]);
+
     return (
         <Box
             component="aside"

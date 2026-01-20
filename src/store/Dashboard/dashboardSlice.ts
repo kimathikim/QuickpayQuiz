@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Invoice, Client } from '@/types/dashboard';
+import { INVOICES, CLIENTS } from '../../../constants';
+import { supabase } from '@/lib/supabaseClient';
 
 export interface DashboardState {
     totalReceived: number;
@@ -11,75 +12,29 @@ export interface DashboardState {
     clients: Client[];
 }
 
-const initialState: DashboardState = {
+export const initialState: DashboardState = {
     totalReceived: 84254.58,
     pendingAmount: 1254.50,
     draftAmount: 0.00,
     growthPercentage: 10,
-    invoices: [
-        {
-            id: '1',
-            invoiceNumber: '#BCS101',
-            date: 'Jun 21, 2020',
-            client: 'Alexander Parkinson',
-            amount: 1254.50,
-            status: 'Pending',
-        },
-        {
-            id: '2',
-            invoiceNumber: '#CDF254',
-            date: 'May 16, 2020',
-            client: 'Intuitive Holdings Pvt. Ltd.',
-            amount: 654.25,
-            status: 'Draft',
-        },
-        {
-            id: '3',
-            invoiceNumber: '#SWE254',
-            date: 'Apr 12, 2020',
-            client: 'Thomas Lee',
-            amount: 2547.32,
-            status: 'Paid',
-        },
-        {
-            id: '4',
-            invoiceNumber: '#SWE254',
-            date: 'Apr 12, 2020',
-            client: 'Thomas Lee',
-            amount: 2547.32,
-            status: 'Paid',
-        },
-    ],
-    clients: [
-        {
-            id: '1',
-            name: 'Alex Parkinson',
-            email: 'alex@email.com',
-            address: '3897 Hickory St',
-            city: 'Salt Lake City, Utah',
-            country: 'United States',
-            zip: '84104'
-        },
-        {
-            id: '2',
-            name: 'John Doe',
-            email: 'john@email.com',
-            address: '123 Main St',
-            city: 'San Francisco, California',
-            country: 'United States',
-            zip: '94105'
-        },
-        {
-            id: '3',
-            name: 'Thomas Lee',
-            email: 'thomas@email.com',
-            address: '456 Market St',
-            city: 'Seattle, Washington',
-            country: 'United States',
-            zip: '98101'
-        }
-    ]
+    invoices: INVOICES,
+    clients: CLIENTS
 };
+
+export const fetchClients = createAsyncThunk(
+    'dashboard/fetchClients',
+    async () => {
+        const { data, error } = await supabase
+            .from('clients')
+            .select('*');
+
+        if (error) {
+            throw error;
+        }
+
+        return data as Client[];
+    }
+);
 
 export const dashboardSlice = createSlice({
     name: 'dashboard',
@@ -107,6 +62,11 @@ export const dashboardSlice = createSlice({
                 .filter(inv => inv.status === 'Draft')
                 .reduce((sum, inv) => sum + inv.amount, 0);
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchClients.fulfilled, (state, action) => {
+            state.clients = action.payload;
+        });
     },
 });
 

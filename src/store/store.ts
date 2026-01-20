@@ -1,8 +1,14 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import dashboardReducer from './Dashboard/dashboardSlice';
+import dashboardReducer, { initialState as dashboardInitialState } from './Dashboard/dashboardSlice';
 import { loadState, saveState } from './localStorage';
 
 const preloadedState = loadState();
+
+if (preloadedState && preloadedState.dashboard) {
+    if (!preloadedState.dashboard.clients || preloadedState.dashboard.clients.length === 0) {
+        preloadedState.dashboard.clients = dashboardInitialState.clients;
+    }
+}
 
 const rootReducer = combineReducers({
     dashboard: dashboardReducer,
