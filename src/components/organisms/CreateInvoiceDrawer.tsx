@@ -19,6 +19,8 @@ import InvoicePreviewModal from './InvoicePreviewModal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateInvoiceSchema, CreateInvoiceSchemaType } from '@/lib/schemas';
 import { formatCurrency } from '@/lib/utils';
+import { useAppDispatch } from '@/store/hooks';
+import { addInvoice } from '@/store/Dashboard/dashboardSlice';
 
 interface CreateInvoiceDrawerProps {
     open: boolean;
@@ -26,7 +28,8 @@ interface CreateInvoiceDrawerProps {
 }
 
 export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDrawerProps) {
-    const { control, handleSubmit, watch, register, formState: { errors } } = useForm<CreateInvoiceSchemaType>({
+    const dispatch = useAppDispatch();
+    const { control, handleSubmit, watch, register, reset, formState: { errors } } = useForm<CreateInvoiceSchemaType>({
         resolver: zodResolver(CreateInvoiceSchema),
         defaultValues: {
             recipientEmail: '',
@@ -50,8 +53,17 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
     const totalAmount = watchedItems.reduce((sum, item) => sum + (item.qty * item.price), 0);
 
     const onSubmit = (data: CreateInvoiceSchemaType) => {
-        console.log(data);
+        const totalAmount = data.items.reduce((sum, item) => sum + (item.qty * item.price), 0);
+
+        dispatch(addInvoice({
+            date: new Date(data.issuedOn).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            client: data.recipientEmail.split('(')[0].trim(),
+            amount: totalAmount,
+            status: 'Pending',
+        }));
+
         onClose();
+        reset();
     };
 
     return (

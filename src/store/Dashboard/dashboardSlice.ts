@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Invoice } from '@/types/dashboard';
 
@@ -55,7 +55,31 @@ export const dashboardSlice = createSlice({
     name: 'dashboard',
     initialState,
     reducers: {
+        addInvoice: (state, action: PayloadAction<Omit<Invoice, 'id' | 'invoiceNumber'>>) => {
+            const newInvoice: Invoice = {
+                id: Math.random().toString(36).substr(2, 9),
+                invoiceNumber: `#INV${Math.floor(1000 + Math.random() * 9000)}`,
+                ...action.payload,
+            };
+
+            state.invoices.unshift(newInvoice);
+
+            // Recalculate totals
+            state.totalReceived = state.invoices
+                .filter(inv => inv.status === 'Paid')
+                .reduce((sum, inv) => sum + inv.amount, 0);
+
+            state.pendingAmount = state.invoices
+                .filter(inv => inv.status === 'Pending')
+                .reduce((sum, inv) => sum + inv.amount, 0);
+
+            state.draftAmount = state.invoices
+                .filter(inv => inv.status === 'Draft')
+                .reduce((sum, inv) => sum + inv.amount, 0);
+        },
     },
 });
+
+export const { addInvoice } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;
