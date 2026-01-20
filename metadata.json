@@ -1,0 +1,5 @@
+{
+  "name": "StartGlobal Dashboard",
+  "description": "A pixel-perfect replication of the StartGlobal payments dashboard featuring invoice management and payment statistics.",
+  "requestFramePermissions": []
+}
