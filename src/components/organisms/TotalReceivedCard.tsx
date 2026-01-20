@@ -8,10 +8,23 @@ import { RootState } from '@/store/store';
 import { formatCurrency } from '@/lib/utils';
 
 export default function TotalReceivedCard() {
-    const { totalReceived, pendingAmount, growthPercentage } = useAppSelector((state: RootState) => state.dashboard);
+    const { invoices, growthPercentage } = useAppSelector((state: RootState) => state.dashboard);
+
+    const totalReceived = invoices
+        .filter((inv) => inv.status === 'Paid')
+        .reduce((sum, inv) => sum + inv.amount, 0);
+
+    const pendingAmount = invoices
+        .filter((inv) => inv.status === 'Pending')
+        .reduce((sum, inv) => sum + inv.amount, 0);
+
+    const draftAmount = invoices
+        .filter((inv) => inv.status === 'Draft')
+        .reduce((sum, inv) => sum + inv.amount, 0);
+
     const total = formatCurrency(totalReceived);
     const pending = formatCurrency(pendingAmount);
-    const draft = formatCurrency(0);
+    const draft = formatCurrency(draftAmount);
 
     return (
         <Paper sx={{ p: 3, flex: 1, height: '100%', minHeight: 210, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 3, boxShadow: '0px 4px 20px rgba(0,0,0,0.02)' }}>
