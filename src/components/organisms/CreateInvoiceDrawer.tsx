@@ -14,7 +14,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
-import CustomDropdownIcon from '@/components/CustomDropdownIcon';
+import CustomDropdownIcon from '@/components/atoms/CustomDropdownIcon';
 import InvoicePreviewModal from './InvoicePreviewModal';
 
 interface InvoiceItem {

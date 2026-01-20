@@ -17,9 +17,9 @@ import TableRow from '@mui/material/TableRow';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppSelector } from '@/store/hooks';
 import { Invoice } from '@/types/dashboard';
-import CurrencyDisplay from '@/components/CurrencyDisplay';
-import StyledOutlinedButton from '@/components/StyledOutlinedButton';
-import CustomDropdownIcon from '@/components/CustomDropdownIcon';
+import CurrencyDisplay from '@/components/atoms/CurrencyDisplay';
+import StyledOutlinedButton from '@/components/atoms/StyledOutlinedButton';
+import CustomDropdownIcon from '@/components/atoms/CustomDropdownIcon';
 
 interface InvoicesTableProps {
     onNewInvoice?: () => void;

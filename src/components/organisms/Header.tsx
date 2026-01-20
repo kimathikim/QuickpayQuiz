@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import StyledOutlinedButton from '@/components/StyledOutlinedButton';
+import StyledOutlinedButton from '@/components/atoms/StyledOutlinedButton';
 
 export default function TopHeader() {
     return (
