@@ -31,6 +31,7 @@ const BOTTOM_NAVIGATION = [
 export default function Sidebar() {
     return (
         <Box
+            component="aside"
             sx={{
                 width: 280,
                 height: '100vh',

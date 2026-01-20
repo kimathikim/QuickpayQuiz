@@ -8,7 +8,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export default function TopHeader() {
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, pr: 2 }}>
             <Typography variant="h6" fontWeight="700" color="text.primary" sx={{ fontSize: '1.25rem' }}>
                 Payments
             </Typography>
@@ -17,7 +17,7 @@ export default function TopHeader() {
                 <Box sx={{
                     width: 40,
                     height: 40,
-                    bgcolor: 'background.paper',
+                    bgcolor: 'transparent',
                     borderRadius: 1.5,
                     border: '1px solid',
                     borderColor: 'divider',
@@ -28,6 +28,7 @@ export default function TopHeader() {
                     color: 'text.secondary',
                     transition: 'all 0.2s',
                     '&:hover': {
+                        bgcolor: 'background.paper',
                         borderColor: 'primary.main',
                         color: 'primary.main',
                         boxShadow: '0 2px 8px rgba(33, 115, 242, 0.1)'
@@ -55,7 +56,7 @@ export default function TopHeader() {
                         boxShadow: '0 2px 8px rgba(33, 115, 242, 0.1)'
                     }
                 }}>
-                    <Avatar sx={{ width: 24, height: 24, fontSize: '0.75rem', bgcolor: 'primary.light', color: 'primary.main' }}>JD</Avatar>
+                    <Avatar sx={{ width: 24, height: 24, fontSize: '0.75rem', bgcolor: '#F5F7FF', color: 'primary.main' }}>JD</Avatar>
                     <Typography variant="body2" fontWeight="500" color="text.primary" sx={{ fontSize: '0.85rem' }}>Jonnathan Doe</Typography>
                     <KeyboardArrowDownIcon color="action" sx={{ fontSize: 18 }} />
                 </Box>

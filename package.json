@@ -12,13 +12,12 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@fontsource/inter": "^5.1.1",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
     "@mui/material-nextjs": "^7.2.0",
     "@mui/system": "^7.3.7",
     "@mui/x-charts": "^8.7.0",
-    "@reduxjs/toolkit": "^2.1.0",
+    "@reduxjs/toolkit": "^2.11.2",
     "next": "15.4.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -34,5 +33,5 @@
     "eslint-config-next": "15.4.8",
     "typescript": "^5"
   },
-  "packageManager": "yarn@4.9.4+sha512.7b1cb0b62abba6a537b3a2ce00811a843bea02bcf53138581a6ae5b1bf563f734872bd47de49ce32a9ca9dcaff995aa789577ffb16811da7c603dcf69e73750b"
+  "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a"
 }

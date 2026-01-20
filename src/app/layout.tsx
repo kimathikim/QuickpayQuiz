@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import ThemeRegistry from "@/theme/ThemeRegistry";
 import { ReduxProvider } from "@/store/provider";
-import "@fontsource/inter";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "StartGlobal Dashboard",
@@ -15,7 +17,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body>
+            <body className={inter.className}>
                 <ReduxProvider>
                     <ThemeRegistry>
                         {children}
