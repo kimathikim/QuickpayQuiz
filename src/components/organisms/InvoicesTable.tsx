@@ -13,13 +13,14 @@ import { useAppSelector } from '@/store/hooks';
 import { Invoice } from '@/types/dashboard';
 import InvoiceTableRow from '@/components/molecules/InvoiceTableRow';
 import InvoicesTableToolbar from '@/components/molecules/InvoicesTableToolbar';
+import InvoiceTableSkeleton from '@/components/molecules/InvoiceTableSkeleton';
 
 interface InvoicesTableProps {
     onNewInvoice?: () => void;
 }
 
 export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
-    const { invoices } = useAppSelector((state) => state.dashboard);
+    const { invoices, isLoadingInvoices } = useAppSelector((state) => state.dashboard);
     const [filterStatus, setFilterStatus] = useState<string>('All');
     const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -80,9 +81,13 @@ export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredInvoices.map((row: Invoice) => (
-                            <InvoiceTableRow key={row.id} invoice={row} />
-                        ))}
+                        {isLoadingInvoices ? (
+                            <InvoiceTableSkeleton />
+                        ) : (
+                            filteredInvoices.map((row: Invoice) => (
+                                <InvoiceTableRow key={row.id} invoice={row} />
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>

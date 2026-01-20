@@ -6,9 +6,14 @@ import Typography from '@mui/material/Typography';
 import { useAppSelector } from '@/store/hooks';
 import { RootState } from '@/store/store';
 import { formatCurrency } from '@/lib/utils';
+import StatCardSkeleton from '@/components/molecules/StatCardSkeleton';
 
 export default function TotalReceivedCard() {
-    const { invoices, growthPercentage } = useAppSelector((state: RootState) => state.dashboard);
+    const { invoices, growthPercentage, isLoadingInvoices } = useAppSelector((state: RootState) => state.dashboard);
+
+    if (isLoadingInvoices) {
+        return <StatCardSkeleton />;
+    }
 
     const totalReceived = invoices
         .filter((inv) => inv.status === 'Paid')

@@ -9,6 +9,8 @@ export interface DashboardState {
     growthPercentage: number;
     invoices: Invoice[];
     clients: Client[];
+    isLoadingInvoices: boolean;
+    isLoadingClients: boolean;
 }
 
 export const initialState: DashboardState = {
@@ -17,7 +19,9 @@ export const initialState: DashboardState = {
     draftAmount: 0,
     growthPercentage: 10,
     invoices: [],
-    clients: []
+    clients: [],
+    isLoadingInvoices: false,
+    isLoadingClients: false
 };
 
 export const fetchClients = createAsyncThunk(
@@ -101,8 +105,21 @@ export const dashboardSlice = createSlice({
     reducers: {
     },
     extraReducers: (builder) => {
+        // Clients loading states
+        builder.addCase(fetchClients.pending, (state) => {
+            state.isLoadingClients = true;
+        });
         builder.addCase(fetchClients.fulfilled, (state, action) => {
             state.clients = action.payload;
+            state.isLoadingClients = false;
+        });
+        builder.addCase(fetchClients.rejected, (state) => {
+            state.isLoadingClients = false;
+        });
+
+        // Invoices loading states
+        builder.addCase(fetchInvoices.pending, (state) => {
+            state.isLoadingInvoices = true;
         });
         builder.addCase(fetchInvoices.fulfilled, (state, action) => {
             state.invoices = action.payload;
@@ -110,7 +127,13 @@ export const dashboardSlice = createSlice({
             state.totalReceived = totals.totalReceived;
             state.pendingAmount = totals.pendingAmount;
             state.draftAmount = totals.draftAmount;
+            state.isLoadingInvoices = false;
         });
+        builder.addCase(fetchInvoices.rejected, (state) => {
+            state.isLoadingInvoices = false;
+        });
+
+        // Create invoice
         builder.addCase(createInvoice.fulfilled, (state, action) => {
             state.invoices.unshift(action.payload);
             const totals = calculateTotals(state.invoices);
