@@ -7,9 +7,21 @@ import InvoicesTable from "@/components/Dashboard/InvoicesTable";
 
 export default function Home() {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', bgcolor: 'primary.main', minHeight: '100vh' }}>
       <Sidebar />
-      <Box component="main" sx={{ flexGrow: 1, ml: '280px', p: 5, bgcolor: '#F5F6FA', minHeight: '100vh' }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          ml: '280px',
+          p: 5,
+          bgcolor: '#F5F6FA',
+          minHeight: '100vh',
+          borderTopLeftRadius: 32,
+          borderBottomLeftRadius: 32,
+          overflow: 'hidden'
+        }}
+      >
         <TopHeader />
 
         <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mr: 12 }}>

@@ -17,6 +17,8 @@ import TableRow from '@mui/material/TableRow';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppSelector } from '@/store/hooks';
 import { Invoice } from '@/types/dashboard';
+import CurrencyDisplay from '@/components/CurrencyDisplay';
+import StyledOutlinedButton from '@/components/StyledOutlinedButton';
 
 export default function InvoicesTable() {
     const { invoices } = useAppSelector((state) => state.dashboard);
@@ -39,19 +41,19 @@ export default function InvoicesTable() {
                 </Box>
                 <Button
                     variant="contained"
-                    startIcon={<AddIcon />}
                     sx={{
                         bgcolor: 'primary.main',
-                        fontWeight: 600,
+                        fontWeight: 700,
                         px: 3,
-                        boxShadow: '0px 4px 10px rgba(33, 115, 242, 0.2)'
+                        boxShadow: '0px 4px 10px rgba(33, 115, 242, 0.2)',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px'
                     }}
                 >
-                    New Invoice
+                    + New Invoice
                 </Button>
             </Box>
 
-            {/* Controls */}
             <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
                 <TextField
                     placeholder="Search an Invoice"
@@ -70,21 +72,18 @@ export default function InvoicesTable() {
                         ),
                     }}
                 />
-                <Button
-                    variant="outlined"
-                    endIcon={<KeyboardArrowDownIcon />}
+                <StyledOutlinedButton
                     sx={{
-                        bgcolor: 'background.paper',
-                        borderColor: '#e0e0e0',
-                        color: 'text.primary',
-                        textTransform: 'none',
-                        minWidth: 120,
+                        minWidth: 140,
                         justifyContent: 'space-between',
-                        borderRadius: 1.5
                     }}
                 >
                     Show all
-                </Button>
+                    <Box component="span" sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
+                        <Box sx={{ width: '1px', height: 20, bgcolor: '#e0e0e0', mr: 1 }} />
+                        <KeyboardArrowDownIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+                    </Box>
+                </StyledOutlinedButton>
             </Box>
 
             {/* Table */}
@@ -119,7 +118,7 @@ export default function InvoicesTable() {
                                     <TableCell sx={{ color: 'text.secondary', border: 0, py: 2 }}>{row.date}</TableCell>
                                     <TableCell sx={{ color: 'text.secondary', border: 0, py: 2 }}>{row.client}</TableCell>
                                     <TableCell align="right" sx={{ fontWeight: 600, color: 'text.primary', border: 0, py: 2 }}>
-                                        ${row.amount.toFixed(2)}
+                                        <CurrencyDisplay amount={row.amount} currencySymbol="$" sx={{ justifyContent: 'flex-end', fontSize: '1rem' }} />
                                     </TableCell>
                                     <TableCell align="right" sx={{ border: 0, py: 2, pr: 3 }}>
                                         <Box sx={{

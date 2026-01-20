@@ -38,7 +38,7 @@ export default function TotalReceivedCard() {
 
             <Box sx={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Box>
-                    <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', fontWeight: 600 }}>
+                    <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'primary.main', fontWeight: 600 }}>
                         <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main' }} />
                         Pending
                     </Typography>
@@ -48,7 +48,7 @@ export default function TotalReceivedCard() {
                 </Box>
 
                 <Box>
-                    <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'text.secondary', fontWeight: 600 }}>
+                    <Typography variant="caption" sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#FFB74D', fontWeight: 600 }}>
                         <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: '#FFB74D' }} />
                         In drafts
                     </Typography>

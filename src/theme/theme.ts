@@ -14,10 +14,10 @@ const theme = createTheme({
     },
     palette: {
         primary: {
-            main: '#2173F2', // Blue from the image startglobal
+            main: '#0061F2',
         },
         secondary: {
-            main: '#1A1A1A', // Using text primary as secondary for now if needed, or define distinct
+            main: '#1A1A1A',
         },
         success: {
             main: '#4CAF50',
@@ -35,7 +35,7 @@ const theme = createTheme({
             contrastText: '#FFFFFF',
         },
         background: {
-            default: '#F5F6FA', // Light grey background
+            default: '#F5F6FA',
             paper: '#FFFFFF',
         },
         text: {
