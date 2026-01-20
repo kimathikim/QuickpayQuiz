@@ -10,7 +10,7 @@ export default function TotalReceivedCard() {
     const { totalReceived, pendingAmount, growthPercentage } = useAppSelector((state: RootState) => state.dashboard);
 
     return (
-        <Paper sx={{ p: 3, flex: 1, height: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 3, boxShadow: '0px 4px 20px rgba(0,0,0,0.02)' }}>
+        <Paper sx={{ p: 3, flex: 1, height: '100%', minHeight: 210, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 3, boxShadow: '0px 4px 20px rgba(0,0,0,0.02)' }}>
             <Box>
                 <Typography variant="overline" color="text.secondary" fontWeight="600" letterSpacing={1.5} sx={{ fontSize: '0.7rem' }}>
                     TOTAL RECEIVED
