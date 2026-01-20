@@ -79,10 +79,8 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                     </IconButton>
                 </Box>
 
-                {/* Content */}
                 <Box sx={{ p: 4, flexGrow: 1, overflowY: 'auto' }}>
 
-                    {/* Invoice Number & Copy Link */}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
                         <Typography variant="h5" fontWeight="bold" color="text.primary">#AL2545</Typography>
                         <Button
@@ -93,7 +91,6 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         </Button>
                     </Box>
 
-                    {/* Recipient Email */}
                     <Box sx={{ mb: 3 }}>
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>Recipient Email</Typography>
                         <Controller
@@ -115,7 +112,6 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         />
                     </Box>
 
-                    {/* Project Description */}
                     <Box sx={{ mb: 3 }}>
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>Project / Description</Typography>
                         <TextField
@@ -127,7 +123,6 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         />
                     </Box>
 
-                    {/* Dates */}
                     <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
                         <Box sx={{ flex: 1 }}>
                             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>Issued on</Typography>
@@ -151,7 +146,6 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         </Box>
                     </Box>
 
-                    {/* Recurring Checkbox */}
                     <Box sx={{ mb: 4 }}>
                         <FormControlLabel
                             control={
@@ -165,7 +159,6 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         />
                     </Box>
 
-                    {/* Items Table */}
                     <Box sx={{ mb: 1 }}>
                         <Box sx={{ display: 'flex', mb: 1 }}>
                             <Typography variant="body2" color="text.secondary" sx={{ flex: 3 }}>Item</Typography>
@@ -206,7 +199,6 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         ))}
                     </Box>
 
-                    {/* Add Item & Total */}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
                         <Button
                             startIcon={<AddIcon />}
@@ -221,7 +213,6 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                         </Box>
                     </Box>
 
-                    {/* Additional Notes */}
                     <Box>
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>Additional Notes</Typography>
                         <TextField
@@ -234,7 +225,6 @@ export default function CreateInvoiceDrawer({ open, onClose }: CreateInvoiceDraw
                     </Box>
                 </Box>
 
-                {/* Footer */}
                 <Box sx={{ p: 3, borderTop: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Button sx={{ color: 'primary.main', fontWeight: 700, fontSize: '0.8rem' }}>PREVIEW</Button>
                     <Box sx={{ display: 'flex', gap: 2 }}>
