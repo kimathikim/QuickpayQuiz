@@ -1,25 +1,18 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchIcon from '@mui/icons-material/Search';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import AddIcon from '@mui/icons-material/Add';
 import { useAppSelector } from '@/store/hooks';
 import { Invoice } from '@/types/dashboard';
-import CurrencyDisplay from '@/components/atoms/CurrencyDisplay';
-import StyledOutlinedButton from '@/components/atoms/StyledOutlinedButton';
-import CustomDropdownIcon from '@/components/atoms/CustomDropdownIcon';
+import InvoiceTableRow from '@/components/molecules/InvoiceTableRow';
+import InvoicesTableToolbar from '@/components/molecules/InvoicesTableToolbar';
 
 interface InvoicesTableProps {
     onNewInvoice?: () => void;
@@ -27,15 +20,16 @@ interface InvoicesTableProps {
 
 export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
     const { invoices } = useAppSelector((state) => state.dashboard);
+    const [filterStatus, setFilterStatus] = useState<string>('All');
 
-    const getStatusColor = (status: string): { bg: string, color: string, dot: string } => {
-        switch (status) {
-            case 'Pending': return { bg: 'info.light', color: 'info.main', dot: 'info.main' };
-            case 'Draft': return { bg: 'warning.light', color: 'warning.main', dot: 'warning.main' };
-            case 'Paid': return { bg: 'success.light', color: 'success.main', dot: 'success.main' };
-            default: return { bg: 'grey.100', color: 'text.secondary', dot: 'text.secondary' };
-        }
+    const handleFilterChange = (status: string) => {
+        setFilterStatus(status);
     };
+
+    const filteredInvoices = invoices.filter(invoice => {
+        if (filterStatus === 'All') return true;
+        return invoice.status === filterStatus;
+    });
 
     return (
         <Box sx={{ mt: 6 }}>
@@ -60,34 +54,10 @@ export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
                 </Button>
             </Box>
 
-            <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-                <TextField
-                    placeholder="Search an Invoice"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    sx={{
-                        bgcolor: 'background.paper',
-                        '& .MuiOutlinedInput-root': { borderRadius: 1.5 }
-                    }}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <SearchIcon color="action" />
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-                <StyledOutlinedButton
-                    sx={{
-                        minWidth: 140,
-                        justifyContent: 'space-between',
-                    }}
-                >
-                    Show all
-                    <CustomDropdownIcon />
-                </StyledOutlinedButton>
-            </Box>
+            <InvoicesTableToolbar
+                filterStatus={filterStatus}
+                onFilterChange={handleFilterChange}
+            />
 
             {/* Table */}
             <TableContainer sx={{ Overflow: 'visible' }}>
@@ -102,47 +72,9 @@ export default function InvoicesTable({ onNewInvoice }: InvoicesTableProps) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {invoices.map((row: Invoice) => {
-                            const statusStyle = getStatusColor(row.status);
-                            return (
-                                <TableRow
-                                    key={row.id}
-                                    sx={{
-                                        bgcolor: 'background.paper',
-                                        boxShadow: '0px 2px 4px rgba(0,0,0,0.02)',
-                                        '& td:first-of-type': { borderTopLeftRadius: 8, borderBottomLeftRadius: 8 },
-                                        '& td:last-of-type': { borderTopRightRadius: 8, borderBottomRightRadius: 8 },
-                                        '&:hover': { boxShadow: '0px 4px 8px rgba(0,0,0,0.05)' }
-                                    }}
-                                >
-                                    <TableCell component="th" scope="row" sx={{ fontWeight: 600, color: 'text.primary', border: 0, py: 2, pl: 3 }}>
-                                        {row.invoiceNumber}
-                                    </TableCell>
-                                    <TableCell sx={{ color: 'text.secondary', border: 0, py: 2 }}>{row.date}</TableCell>
-                                    <TableCell sx={{ color: 'text.secondary', border: 0, py: 2 }}>{row.client}</TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: 600, color: 'text.primary', border: 0, py: 2 }}>
-                                        <CurrencyDisplay amount={row.amount} currencySymbol="$" sx={{ justifyContent: 'flex-end', fontSize: '1rem' }} />
-                                    </TableCell>
-                                    <TableCell align="right" sx={{ border: 0, py: 2, pr: 3 }}>
-                                        <Box sx={{
-                                            display: 'inline-flex',
-                                            alignItems: 'center',
-                                            gap: 1,
-                                            bgcolor: statusStyle.bg,
-                                            color: statusStyle.color,
-                                            px: 1.5,
-                                            py: 0.5,
-                                            borderRadius: 4,
-                                            fontWeight: 600,
-                                            fontSize: '0.75rem'
-                                        }}>
-                                            <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: statusStyle.dot }} />
-                                            {row.status}
-                                        </Box>
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
+                        {filteredInvoices.map((row: Invoice) => (
+                            <InvoiceTableRow key={row.id} invoice={row} />
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>
